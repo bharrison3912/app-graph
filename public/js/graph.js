@@ -561,7 +561,7 @@ function onGenerate3()
       levelStack.push({ "target" : 0, "subAsmCount" : 1 });
 
       // Find the image for the parent node (element == 0)
-      var topLevelImage = nil;
+      var topLevelImage = null;
       for (var i = 0; i < ImagesArray.length; ++i) {
         if (ImagesArray[i].Element == 0) {
           topLevelImage = ImagesArray[i].Image;
@@ -594,7 +594,7 @@ function onGenerate3()
             nodes[nodes.length] = {
               "name": nodeName,
               "group": Comp2Array[z].Level + 1,
-              "image": nil
+              "image": null
             };
 
             links[links.length] = {
