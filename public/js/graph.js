@@ -171,7 +171,7 @@ function generateThumbs(argMap) {
     var size = argMap.size;
 
     var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
-        "&outputHeight=100&outputWidth=100&pixelSize=" + realSize / 100 +
+        "&outputHeight=75&outputWidth=75&pixelSize=" + realSize / 75 +
         "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + xCtr +
         "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + yCtr +
         "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr;
@@ -310,7 +310,7 @@ function onGenerate2() {
   ResultImage.addClass('ResultImage');
 
   var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + theContext.elementId +
-          "&outputHeight=100&outputWidth=100&pixelSize=" + realSize / 100 +
+          "&outputHeight=75&outputWidth=75&pixelSize=" + realSize / 75 +
       "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + (-tX) +
       "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + (-tY) +
       "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + (-tZ);
@@ -653,8 +653,8 @@ function onGenerate3()
 //              .attr("r", 12)
           .enter().append("image")
           .attr("class", "node")
-          .attr("width", 100)
-          .attr("height", 100)
+          .attr("width", 75)
+          .attr("height", 75)
           .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
