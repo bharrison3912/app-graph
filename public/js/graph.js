@@ -342,17 +342,11 @@ function onGenerate2() {
 
   ResultTable.append("<th style='min-width:25px' align='left'> </th>");
   ResultTable.append("<th style='min-width:125px' align='left'>Item Number</th>");
-
-  var e = document.getElementById("thumbs-generate");
-  if (e.checked == true)
-    ResultTable.append("<th style='min-width:75px' align='left'>Image</th>");
-
   ResultTable.append("<th style='min-width:200px' align='left'>Component Name</th>");
   ResultTable.append("<th style='min-width:100px' align='left'>Count</th>");
   ResultTable.append("<th style='min-width:150px' align='left'>Part Number</th>");
   ResultTable.append("<th style='min-width:100px' align='left'>Revision</th>");
 
-  $('#bomResults').append(this.block);
 
   // Recursive search for components in the assembly
   Comp2Array = [];
