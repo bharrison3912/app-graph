@@ -321,6 +321,11 @@ function onGenerate2() {
       if (res.images.length > 0) {
         var image = res.images[0];
         ResultImage.append("<img alt='shaded view' src='data:image/png;base64," + image + "' />");
+
+        ImagesArray[ImagesArray.length] = {
+          Image : image,
+          Element : 0
+        }
       }
       else {
         imageString = "<img alt='An image' src='http://i.imgur.com/lEyLDtn.jpg' width=550 height=244 />";
@@ -555,10 +560,19 @@ function onGenerate3()
       var levelStack = [];
       levelStack.push({ "target" : 0, "subAsmCount" : 1 });
 
+      // Find the image for the parent node (element == 0)
+      var topLevelImage = nil;
+      for (var i = 0; i < ImagesArray.length; ++i) {
+        if (ImagesArray[i].Element == 0) {
+          topLevelImage = ImagesArray[i].Image;
+        }
+      }
+
       // Add the parent node
       nodes[nodes.length] = {
         "name": "ROOT",
-        "group": 0
+        "group": 0,
+        "image": topLevelImage
       };
 
       // Add the the children now
@@ -579,7 +593,8 @@ function onGenerate3()
               nodeName += " <" + (a+1) + ">";
             nodes[nodes.length] = {
               "name": nodeName,
-              "group": Comp2Array[z].Level + 1
+              "group": Comp2Array[z].Level + 1,
+              "image": nil
             };
 
             links[links.length] = {
@@ -631,7 +646,7 @@ function onGenerate3()
           .attr("class", "node")
           .attr("width", 30)
           .attr("height", 30)
-          .attr("xlink:href", "../images/test.png")
+          .attr("src", "data:image/png;base64," + topLevelImage)
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
 
