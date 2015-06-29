@@ -647,7 +647,7 @@ function onGenerate3()
           .attr("class", "node")
           .attr("width", 30)
           .attr("height", 30)
-          .attr("src", "data:image/png;base64," + d.image)
+          .attr("src", function(d) { return ("data:image/png;base64," + d.image); })
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
 
