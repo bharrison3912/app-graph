@@ -171,7 +171,7 @@ function generateThumbs(argMap) {
     var size = argMap.size;
 
     var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
-        "&outputHeight=50&outputWidth=50&pixelSize=" + realSize / 50 +
+        "&outputHeight=100&outputWidth=100&pixelSize=" + realSize / 100 +
         "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + xCtr +
         "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + yCtr +
         "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr;
@@ -190,7 +190,7 @@ function generateThumbs(argMap) {
         resolve(1);
       },
       error: function() {
-        reject(0);
+        resolve(0);
       }
     });
   });
