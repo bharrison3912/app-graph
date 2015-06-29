@@ -304,7 +304,7 @@ function findComponents(resolve, reject, nextElement, asmIndex) {
 // Second half to the generate function ... need the bounding box results first
 function onGenerate2() {
   ImagesArray = [];
-  
+
 // Add an image of the model to the page
   ResultImage = $('<div style="float:right"></div>');
   ResultImage.addClass('ResultImage');
@@ -595,7 +595,7 @@ function onGenerate3()
             nodes[nodes.length] = {
               "name": nodeName,
               "group": Comp2Array[z].Level + 1,
-              "image": null
+              "image": topLevelImage
             };
 
             links[links.length] = {
@@ -647,7 +647,7 @@ function onGenerate3()
           .attr("class", "node")
           .attr("width", 30)
           .attr("height", 30)
-          .attr("src", "data:image/png;base64," + topLevelImage)
+          .attr("src", "data:image/png;base64," + d.image)
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
 
