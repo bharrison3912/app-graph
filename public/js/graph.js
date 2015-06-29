@@ -354,10 +354,7 @@ function onGenerate2() {
   ImagesArray = [];
   ThumbPromises = [];
 
-  var addImage = false;
-  var e = document.getElementById("thumbs-generate");
-  if (e.checked == true)
-    addImage = true;
+  var addImage = true;
 
   var getPromise = new Promise(findAssemblies);
 
@@ -488,10 +485,7 @@ function onGenerate3()
   createTreeList();
 
   // Check to see if we should add the images
-  var addImage = false;
-  var e = document.getElementById("thumbs-generate");
-  if (e.checked == true)
-    addImage = true;
+  var addImage = true;
 
   $.ajax('/api/elements'+ window.location.search, {
     dataType: 'json',
