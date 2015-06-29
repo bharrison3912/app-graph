@@ -643,11 +643,11 @@ function onGenerate3()
 //              .enter().append("circle")
 //              .attr("class", "node")
 //              .attr("r", 12)
-          .enter().append("img")
+          .enter().append("image")
           .attr("class", "node")
           .attr("width", 50)
           .attr("height", 50)
-          .attr("src", function(d) { return ("data:image/png;base64," + d.image); })
+          .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
 
