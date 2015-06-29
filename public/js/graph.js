@@ -310,7 +310,7 @@ function onGenerate2() {
   ResultImage.addClass('ResultImage');
 
   var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + theContext.elementId +
-          "&outputHeight=600&outputWidth=600&pixelSize=" + realSize / 600 +
+          "&outputHeight=50&outputWidth=50&pixelSize=" + realSize / 50 +
       "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + (-tX) +
       "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + (-tY) +
       "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + (-tZ);
