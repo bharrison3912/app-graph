@@ -303,6 +303,8 @@ function findComponents(resolve, reject, nextElement, asmIndex) {
 
 // Second half to the generate function ... need the bounding box results first
 function onGenerate2() {
+  ImagesArray = [];
+  
 // Add an image of the model to the page
   ResultImage = $('<div style="float:right"></div>');
   ResultImage.addClass('ResultImage');
@@ -356,7 +358,6 @@ function onGenerate2() {
   // Recursive search for components in the assembly
   Comp2Array = [];
   SubAsmArray = [];
-  ImagesArray = [];
   ThumbPromises = [];
 
   var addImage = false;
