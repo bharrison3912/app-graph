@@ -310,7 +310,7 @@ function onGenerate2() {
   ResultImage.addClass('ResultImage');
 
   var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + theContext.elementId +
-          "&outputHeight=50&outputWidth=50&pixelSize=" + realSize / 50 +
+          "&outputHeight=100&outputWidth=100&pixelSize=" + realSize / 100 +
       "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + (-tX) +
       "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + (-tY) +
       "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + (-tZ);
@@ -360,7 +360,7 @@ function onGenerate2() {
   SubAsmArray = [];
   ThumbPromises = [];
 
-  var addImage = false;
+  var addImage = true;
 
   var getPromise = new Promise(findAssemblies);
 
@@ -587,6 +587,14 @@ function onGenerate3()
 
         var groupNumber = Comp2Array[z].Level + 1;
 
+
+        var thisImage = topLevelImage;
+        for (var i = 0; i < ImagesArray.length; ++i) {
+          if (ImagesArray[i].Element == Comp2Array[z].AsmElementId) {
+            thisImage = ImagesArray[i].Image;
+          }
+        }
+
         for (var b = 0; b < thisSubAsmCount; ++b) {
           for (var a = 0; a < Comp2Array[z].Count; ++a) {
             var nodeName = Comp2Array[z].Name;
@@ -595,7 +603,7 @@ function onGenerate3()
             nodes[nodes.length] = {
               "name": nodeName,
               "group": Comp2Array[z].Level + 1,
-              "image": topLevelImage
+              "image": thisImage
             };
 
             links[links.length] = {
@@ -620,7 +628,7 @@ function onGenerate3()
 
       var force = d3.layout.force()
           .charge(-120)
-          .linkDistance(100)
+          .linkDistance(150)
           .size([width, height]);
 
       var svg = d3.select("body").append("svg")
@@ -645,8 +653,8 @@ function onGenerate3()
 //              .attr("r", 12)
           .enter().append("image")
           .attr("class", "node")
-          .attr("width", 50)
-          .attr("height", 50)
+          .attr("width", 100)
+          .attr("height", 100)
           .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
 //              .style("fill", function(d) { return color(d.group); })
           .call(force.drag);
