@@ -359,7 +359,7 @@ function onGenerate2() {
   ImagesArray = [];
   ThumbPromises = [];
 
-  var addImage = true;
+  var addImage = false;
 
   var getPromise = new Promise(findAssemblies);
 
