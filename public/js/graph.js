@@ -117,10 +117,10 @@ var Comp2Array = [];
 var SubAsmArray = [];
 var ThumbPromises = [];
 
-function generateBBox(elementId) {
+function generateBBox(elementId, partId) {
   return new Promise(function(resolve, reject) {
     // Get the bounding box size
-    $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + elementId, {
+    $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + elementId + '&partId=' + partId, {
       dataType: 'json',
       type: 'GET',
       success: function(data) {
@@ -148,7 +148,7 @@ function generateBBox(elementId) {
         var bZ = zCenter * 0 + zCenter * 0.816 + zCenter * 0.577;
 
         // Now, finish the rest of the work.
-        generateThumbs({'Element' : elementId, 'xCtr' : bX, 'yCtr' : bY, 'zCtr' : bZ, 'size' : bSize });
+        generateThumbs({'Element' : elementId, 'PartId' : partId, 'xCtr' : bX, 'yCtr' : bY, 'zCtr' : bZ, 'size' : bSize });
         resolve(1);
       },
       error: function(data) {
@@ -165,6 +165,7 @@ function generateThumbs(argMap) {
   var thumb = new Promise(function(resolve, reject) {
 
     var elementId = argMap.Element;
+    var partId = argMap.PartId;
     var xCtr = argMap.xCtr;
     var yCtr = argMap.yCtr;
     var zCtr = argMap.zCtr;
@@ -174,7 +175,8 @@ function generateThumbs(argMap) {
         "&outputHeight=75&outputWidth=75&pixelSize=" + realSize / 75 +
         "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + xCtr +
         "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + yCtr +
-        "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr;
+        "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr +
+        "&partId=" + partId;
 
     $.ajax('/api/shadedView'+ options, {
       dataType: 'json',
@@ -184,7 +186,8 @@ function generateThumbs(argMap) {
         if (res.images.length > 0) {
           ImagesArray[ImagesArray.length] = {
             Image : res.images[0],
-            Element : elementId
+            Element : elementId,
+            PartId : partId
           }
         }
         resolve(1);
@@ -228,7 +231,7 @@ function findAssemblies(resolve, reject) {
   });
 }
 
-function saveComponentToList(asmIndex, itemName, asmElementId, partElementId) {
+function saveComponentToList(asmIndex, itemName, asmElementId, partElementId, partId) {
   var found = false;
   var foundIndex = 0;
   for (var y = 0; y < SubAsmArray[asmIndex].Components.length; ++y) {
@@ -248,7 +251,8 @@ function saveComponentToList(asmIndex, itemName, asmElementId, partElementId) {
       AsmElementId : asmElementId,
       Count: 1,
       PartNumber: 0,
-      Revision: 1
+      Revision: 1,
+      PartId : partId
     }
   }
 }
@@ -271,7 +275,7 @@ function findComponents(resolve, reject, nextElement, asmIndex) {
             itemName = compData.rootAssembly.instances[i].name.substring(0, bracketIndex - 1);
 
           // Search through the list of components to find a match
-          saveComponentToList(asmIndex, itemName, 0, compData.rootAssembly.instances[i].elementId);
+          saveComponentToList(asmIndex, itemName, 0, compData.rootAssembly.instances[i].elementId, compData.rootAssembly.instances[i].partId);
         }
 
         // If it's a sub-assembly instance, make sure we bump the count properly.
@@ -289,7 +293,7 @@ function findComponents(resolve, reject, nextElement, asmIndex) {
 
             // Save this as a 'component' in the list too
             if (found == true)
-              saveComponentToList(asmIndex, asmName, subElementId, 0);
+              saveComponentToList(asmIndex, asmName, subElementId, 0, 0);
         }
       }
 
@@ -326,7 +330,8 @@ function onGenerate2() {
 
         ImagesArray[ImagesArray.length] = {
           Image : image,
-          Element : 0
+          Element : 0,
+          PartId : 0
         }
       }
       else {
@@ -379,8 +384,16 @@ function onGenerate2() {
     if (addImage) {
       // Generate all of the thumbnails of the assemblies
       for (var x = 0; x < SubAsmArray.length; ++x) {
-        var thumbPromise = generateBBox(SubAsmArray[x].Element);
+        var thumbPromise = generateBBox(SubAsmArray[x].Element, 0);
         bboxPromises.push(thumbPromise);
+      }
+
+      // Generate all of the thumbnails for the components found
+      for (var y = 0; y < Comp2Array.length; ++y) {
+        if (Comp2Array[y].AsmElementId == 0) {
+          var partThumbPromise = generateBBox(Comp2Array[y].ElementId, Comp2Array[y].PartId);
+          bboxPromises.push(partThumbPromise);
+        }
       }
     }
 
@@ -589,8 +602,13 @@ function onGenerate3()
 
 
         var thisImage = topLevelImage;
+        var itemElementId = Comp2Array[z].AsmElementId;
+        if (itemElementId == 0)
+          itemElementId = Comp2Array[z].ElementId;
+        var itemPartId = Comp2Array[z].PartId;
+
         for (var i = 0; i < ImagesArray.length; ++i) {
-          if (ImagesArray[i].Element == Comp2Array[z].AsmElementId) {
+          if (ImagesArray[i].Element == itemElementId && ImagesArray[i].PartId == itemPartId) {
             thisImage = ImagesArray[i].Image;
           }
         }
@@ -672,7 +690,7 @@ function onGenerate3()
             .attr("cy", function(d) { return d.y; });
 
         svg.selectAll(".node")
-            .attr("transform", function(d) { return "translate(" + (d.x - 15) + "," + (d.y - 15) + ") scale(1)"; });
+            .attr("transform", function(d) { return "translate(" + (d.x - 37) + "," + (d.y - 37) + ") scale(1)"; });
       });
       //        });
     },
