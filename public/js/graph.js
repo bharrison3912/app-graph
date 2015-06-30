@@ -437,7 +437,7 @@ function addComponentToList(indexI, indexX, levelIn, forceAdd) {
       Collapse : false,
       ElementId : SubAsmArray[indexI].Components[indexX].ElementId,
       AsmElementId : 0,
-      PartId : SubAsmArray[indexI].Compeontns[indexX].PartId
+      PartId : SubAsmArray[indexI].Components[indexX].PartId
     }
   }
 }
