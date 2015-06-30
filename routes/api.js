@@ -131,9 +131,15 @@ var getShadedView = function(req, res) {
       ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
       '&perspective=false';
 
-  if (req.query.partId != 0)
-    console.log("***** GET SHADED VIEW - Part Id " + req.query.partId);
-
+  if (req.query.partId != "NOT")
+    url = 'https://partner.dev.onshape.com/api/parts/d/' + req.query.documentId +
+    '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/partid/' + req.query.partId + '/shadedviews?' +
+    '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth + '&pixelSize=' + req.query.pixelSize +
+    '&viewMatrix=' + req.query.viewMatrix1 + ',' + req.query.viewMatrix2 + ',' + req.query.viewMatrix3 + ',' + req.query.viewMatrix4 +
+    ',' + req.query.viewMatrix5 + ',' + req.query.viewMatrix6 + ',' + req.query.viewMatrix7 + ',' + req.query.viewMatrix8 +
+    ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
+    '&perspective=false';
+  
   request.get({
     uri: url,
     headers: {
