@@ -389,10 +389,12 @@ function onGenerate2() {
       }
 
       // Generate all of the thumbnails for the components found
-      for (var y = 0; y < Comp2Array.length; ++y) {
-        if (Comp2Array[y].AsmElementId == 0) {
-          var partThumbPromise = generateBBox(Comp2Array[y].ElementId, Comp2Array[y].PartId);
-          bboxPromises.push(partThumbPromise);
+      for (var y = 0; y < SubAsmArray.length; ++y) {
+        for (var z = 0; z < SubAsmArray[y].Components.length; ++z) {
+          if (SubAsmArray[y].Components[z].AsmElementId == 0) {
+            var partThumbPromise = generateBBox(SubAsmArray[y].Components[z].ElementId, SubAsmArray[y].Components[z].PartId);
+            bboxPromises.push(partThumbPromise);
+          }
         }
       }
     }
@@ -434,7 +436,8 @@ function addComponentToList(indexI, indexX, levelIn, forceAdd) {
       Level : levelIn,
       Collapse : false,
       ElementId : SubAsmArray[indexI].Components[indexX].ElementId,
-      AsmElementId : 0
+      AsmElementId : 0,
+      PartId : SubAsmArray[indexI].Compeontns[indexX].PartId
     }
   }
 }
@@ -453,7 +456,8 @@ function addSubAssemblyToList(indexI, levelIn, countIn, recurse) {
     Level : levelIn,
     Collapse : true,
     ElementId : 0,
-    AsmElementId : SubAsmArray[indexI].Element
+    AsmElementId : SubAsmArray[indexI].Element,
+    PartId : 0
   }
 
   // Now go through and add all of the children components at Level +1 to this one
