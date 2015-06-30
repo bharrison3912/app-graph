@@ -131,6 +131,8 @@ var getShadedView = function(req, res) {
       ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
       '&perspective=false';
 
+  if (req.query.partId != 0)
+    console.log("***** GET SHADED VIEW - Part Id " + req.query.partId);
 
   request.get({
     uri: url,
