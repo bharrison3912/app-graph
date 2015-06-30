@@ -393,8 +393,8 @@ function onGenerate2() {
       for (var y = 0; y < SubAsmArray.length; ++y) {
         for (var z = 0; z < SubAsmArray[y].Components.length; ++z) {
           if (SubAsmArray[y].Components[z].AsmElementId == 0) {
-//            var partThumbPromise = generateBBox(SubAsmArray[y].Components[z].ElementId, SubAsmArray[y].Components[z].PartId);
-//            bboxPromises.push(partThumbPromise);
+            var partThumbPromise = generateBBox(SubAsmArray[y].Components[z].ElementId, SubAsmArray[y].Components[z].PartId);
+            bboxPromises.push(partThumbPromise);
           }
         }
       }
