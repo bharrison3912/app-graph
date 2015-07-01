@@ -582,7 +582,7 @@ function onGenerate3()
       var currentSubAssemblyCount = 1;
 
       var levelStack = [];
-      levelStack.push({ "target" : 0, "subAsmCount" : 1 });
+      levelStack.push({"target": 0, "subAsmCount": 1});
 
       // Find the image for the parent node (element == 0)
       var topLevelImage = null;
@@ -627,7 +627,7 @@ function onGenerate3()
           for (var a = 0; a < Comp2Array[z].Count; ++a) {
             var nodeName = Comp2Array[z].Name;
             if (Comp2Array[z].Count > 1)
-              nodeName += " <" + (a+1) + ">";
+              nodeName += " <" + (a + 1) + ">";
             nodes[nodes.length] = {
               "name": nodeName,
               "group": Comp2Array[z].Level + 1,
@@ -635,9 +635,9 @@ function onGenerate3()
             };
 
             links[links.length] = {
-              "source":currentComponent,
-              "target":thisTarget + b,
-              "value":1
+              "source": currentComponent,
+              "target": thisTarget + b,
+              "value": 1
             };
             currentComponent++;
           }
@@ -645,19 +645,33 @@ function onGenerate3()
 
         // We have a sub-assembly ... need to change the level as well as the target
         if (Comp2Array[z].Collapse == true) {
-          levelStack.push({ "target" : currentComponent - Comp2Array[z].Count, "subAsmCount" : Comp2Array[z].Count });
+          levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
         }
       }
+
+      var useImages = false;
+      var e = document.getElementById("use-images");
+      if (e.checked == true)
+        useImages = false;
 
       var width = 1500,
           height = 1000;
 
       var color = d3.scale.category20();
 
-      var force = d3.layout.force()
+      var force;
+      if (useImages) {
+        force = d3.layout.force()
           .charge(-120)
           .linkDistance(250)
           .size([width, height]);
+      }
+      else {
+        force = d3.layout.force()
+            .charge(-120)
+            .linkDistance(75)
+            .size([width, height]);
+      }
 
       var svg = d3.select("body").append("svg")
           .attr("width", width)
@@ -675,9 +689,9 @@ function onGenerate3()
           .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
       // Use Images for each node or a Color-coded circle
-      var e = document.getElementById("use-images");
-      if (e.checked == true) {
-        var node = svg.selectAll(".node")
+      var node;
+      if (useImages) {
+        node = svg.selectAll(".node")
             .data(nodes)
             .enter().append("image")
             .attr("class", "node")
@@ -687,7 +701,7 @@ function onGenerate3()
             .call(force.drag);
       }
       else {
-        var node = svg.selectAll(".node")
+        node = svg.selectAll(".node")
             .data(nodes)
               .enter().append("circle")
               .attr("class", "node")
@@ -695,19 +709,6 @@ function onGenerate3()
               .style("fill", function(d) { return color(d.group); })
             .call(force.drag);
       }
-
-        var node = svg.selectAll(".node")
-          .data(nodes)
-//              .enter().append("circle")
-//              .attr("class", "node")
-//              .attr("r", 12)
-          .enter().append("image")
-          .attr("class", "node")
-          .attr("width", 75)
-          .attr("height", 75)
-          .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
-//              .style("fill", function(d) { return color(d.group); })
-          .call(force.drag);
 
       node.append("title")
           .text(function(d) { return d.name; });
@@ -721,7 +722,7 @@ function onGenerate3()
         node.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
 
-        if (e.checked == true) {
+        if (useImages) {
           svg.selectAll(".node")
               .attr("transform", function (d) {
                 return "translate(" + (d.x - 37) + "," + (d.y - 37) + ") scale(1)";
@@ -730,12 +731,11 @@ function onGenerate3()
         else {
           svg.selectAll(".node")
               .attr("transform", function (d) {
-                return "translate(" + (d.x - 12) + "," + (d.y - 12) + ") scale(1)";
+                return "translate(" + (d.x - 6) + "," + (d.y - 6) + ") scale(1)";
               });
 
         }
       });
-      //        });
     },
     error: function() {
     }

@@ -133,6 +133,8 @@ var getShadedView = function(req, res) {
 
   url = " ";
 
+  console.log("******* GET SHADED " + req.query.partId + "  " + url);
+
   if (req.query.partId == "NOT") {
      url = 'https://partner.dev.onshape.com/api/assemblies/d/' + req.query.documentId +
         '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/shadedviews?' +
@@ -141,7 +143,7 @@ var getShadedView = function(req, res) {
         ',' + req.query.viewMatrix5 + ',' + req.query.viewMatrix6 + ',' + req.query.viewMatrix7 + ',' + req.query.viewMatrix8 +
         ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
         '&perspective=false';
-    console.log("******* GET SHADED " + req.query.partId + "  " + url);
+    console.log("******* GET SHADED - ASSEMBLY");
   }
 
 
