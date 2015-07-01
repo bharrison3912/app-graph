@@ -129,7 +129,7 @@ var getShadedView = function(req, res) {
     '&viewMatrix=' + req.query.viewMatrix1 + ',' + req.query.viewMatrix2 + ',' + req.query.viewMatrix3 + ',' + req.query.viewMatrix4 +
     ',' + req.query.viewMatrix5 + ',' + req.query.viewMatrix6 + ',' + req.query.viewMatrix7 + ',' + req.query.viewMatrix8 +
     ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
-    '&perspective=false' + '&elementMicroversionId=false';
+    '&perspective=false' + '&elementMicroversionId=something';
 
   url = " ";
 

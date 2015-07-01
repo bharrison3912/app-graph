@@ -511,207 +511,160 @@ function createTreeList() {
 
 function onGenerate3()
 {
+  // Walk through all of the data collected and build the tree.
   createTreeList();
 
-      // Populate the graph nodes/links with data from the assembly tree
-      var nodes = [];
-      var links = [];
+  // Populate the graph nodes/links with data from the assembly tree
+  var nodes = [];
+  var links = [];
 
-      var currentComponent = 1;
-      var currentTarget = 0;
-      var currentSubAssemblyCount = 1;
+  var currentComponent = 1;
+  var currentTarget = 0;
+  var currentSubAssemblyCount = 1;
 
-      var levelStack = [];
-      levelStack.push({"target": 0, "subAsmCount": 1});
+  var levelStack = [];
+  levelStack.push({"target": 0, "subAsmCount": 1});
 
-      // Find the image for the parent node (element == 0)
-      var topLevelImage = null;
-      for (var i = 0; i < ImagesArray.length; ++i) {
-        if (ImagesArray[i].Element == 0) {
-          topLevelImage = ImagesArray[i].Image;
-        }
-      }
+  // Find the image for the parent node (element == 0)
+  var topLevelImage = null;
+  for (var i = 0; i < ImagesArray.length; ++i) {
+    if (ImagesArray[i].Element == 0) {
+      topLevelImage = ImagesArray[i].Image;
+    }
+  }
 
-      var useImages = false;
-      var e = document.getElementById("use-images");
-      if (e.checked == true)
-        useImages = true;
+  var useImages = false;
+  var e = document.getElementById("use-images");
+  if (e.checked == true)
+    useImages = true;
 
-      var distance = 6;
-      if (useImages)
-        distance = 37;
+  var distance = 6;
+  if (useImages)
+    distance = 37;
 
-    // Add the parent node
-    nodes[nodes.length] = {
+  // Add the parent node
+  nodes[nodes.length] = {
       "name": "ROOT",
       "group": 0,
       "image": topLevelImage,
       "offset" : distance
-    };
+  };
 
   // Add the the children now
-      for (var z = 0; z < Comp2Array.length; ++z) {
-        // See if we should pop the level info
-        if (Comp2Array[z].Level < (levelStack.length - 1))
-          levelStack.pop();
+  for (var z = 0; z < Comp2Array.length; ++z) {
+    // See if we should pop the level info
+    if (Comp2Array[z].Level < (levelStack.length - 1))
+      levelStack.pop();
 
-        var thisTarget = levelStack[levelStack.length - 1].target;
-        var thisSubAsmCount = levelStack[levelStack.length - 1].subAsmCount;
+    var thisTarget = levelStack[levelStack.length - 1].target;
+    var thisSubAsmCount = levelStack[levelStack.length - 1].subAsmCount;
 
-        var groupNumber = Comp2Array[z].Level + 1;
+    var groupNumber = Comp2Array[z].Level + 1;
 
 
-        var thisImage = topLevelImage;
-        var itemElementId = Comp2Array[z].AsmElementId;
-        if (itemElementId == 0)
-          itemElementId = Comp2Array[z].ElementId;
-        var itemPartId = Comp2Array[z].PartId;
+    var thisImage = topLevelImage;
+    var itemElementId = Comp2Array[z].AsmElementId;
+    if (itemElementId == 0)
+      itemElementId = Comp2Array[z].ElementId;
+    var itemPartId = Comp2Array[z].PartId;
 
-        for (var i = 0; i < ImagesArray.length; ++i) {
-          if (ImagesArray[i].Element == itemElementId && ImagesArray[i].PartId == itemPartId) {
-            thisImage = ImagesArray[i].Image;
-          }
-        }
-
-        for (var b = 0; b < thisSubAsmCount; ++b) {
-          for (var a = 0; a < Comp2Array[z].Count; ++a) {
-            var nodeName = Comp2Array[z].Name;
-            if (Comp2Array[z].Count > 1)
-              nodeName += " <" + (a + 1) + ">";
-            nodes[nodes.length] = {
-              "name": nodeName,
-              "group": Comp2Array[z].Level + 1,
-              "image": thisImage,
-              "offset" : distance
-            };
-
-            links[links.length] = {
-              "source": currentComponent,
-              "target": thisTarget + b,
-              "value": 1
-            };
-            currentComponent++;
-          }
-        }
-
-        // We have a sub-assembly ... need to change the level as well as the target
-        if (Comp2Array[z].Collapse == true) {
-          levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
-        }
+    for (var i = 0; i < ImagesArray.length; ++i) {
+      if (ImagesArray[i].Element == itemElementId && ImagesArray[i].PartId == itemPartId) {
+        thisImage = ImagesArray[i].Image;
       }
-
-      var width = 1500,
-          height = 1000;
-
-      var color = d3.scale.category20();
-
-      var force;
-      if (useImages) {
-        force = d3.layout.force()
-          .charge(-120)
-          .linkDistance(250)
-          .size([width, height]);
-      }
-      else {
-        force = d3.layout.force()
-            .charge(-120)
-            .linkDistance(75)
-            .size([width, height]);
-      }
-
-      var svg = d3.select("body").append("svg")
-          .attr("width", width)
-          .attr("height", height);
-
-      force
-          .nodes(nodes)
-          .links(links)
-          .start();
-
-      var link = svg.selectAll(".link")
-          .data(links)
-          .enter().append("line")
-          .attr("class", "link")
-          .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-      // Use Images for each node or a Color-coded circle
-      var node;
-      if (useImages) {
-        node = svg.selectAll(".node")
-            .data(nodes)
-            .enter().append("image")
-            .attr("class", "node")
-            .attr("width", 75)
-            .attr("height", 75)
-            .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
-            .call(force.drag);
-      }
-      else {
-        node = svg.selectAll(".node")
-            .data(nodes)
-              .enter().append("circle")
-              .attr("class", "node")
-              .attr("r", 12)
-              .style("fill", function(d) { return color(d.group); })
-            .call(force.drag);
-      }
-
-      node.append("title")
-          .text(function(d) { return d.name; });
-
-      force.on("tick", function() {
-        link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-
-        node.attr("cx", function(d) { return d.x; })
-            .attr("cy", function(d) { return d.y; });
-
-        svg.selectAll(".node")
-            .attr("transform", function (d) {
-              return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
-            });
-      });
-}
-
-//
-// Expand/Collapse code for the controls in the generated BOM table
-//
-$(function() {
-  $('#bomResults').on('click', '.toggle', function () {
-    //Gets all <tr>'s  of greater depth
-    //below element in the table
-    var findChildren = function (tr) {
-      var depth = tr.data('depth');
-      return tr.nextUntil($('tr').filter(function () {
-        return $(this).data('depth') <= depth;
-      }));
-    };
-
-    var el = $(this);
-    var tr = el.closest('tr'); //Get <tr> parent of toggle button
-    var children = findChildren(tr);
-
-    // Remove already collapsed nodes from children so that we don't
-    // make them visible.
-    // (Confused? Remove this code and close Item 2, close Item 1
-    // then open Item 1 again, then you will understand)
-    var subnodes = children.filter('.expand');
-    subnodes.each(function () {
-      var subnode = $(this);
-      var subnodeChildren = findChildren(subnode);
-      children = children.not(subnodeChildren);
-    });
-
-    // Change icon and hide/show children
-    if (tr.hasClass('collapse')) {
-      tr.removeClass('collapse').addClass('expand');
-      children.hide();
-    } else {
-      tr.removeClass('expand').addClass('collapse');
-      children.show();
     }
-    return children;
+
+    for (var b = 0; b < thisSubAsmCount; ++b) {
+      for (var a = 0; a < Comp2Array[z].Count; ++a) {
+        var nodeName = Comp2Array[z].Name;
+        if (Comp2Array[z].Count > 1)
+          nodeName += " <" + (a + 1) + ">";
+        nodes[nodes.length] = {
+          "name": nodeName,
+          "group": Comp2Array[z].Level + 1,
+          "image": thisImage,
+          "offset" : distance
+        };
+
+        links[links.length] = {
+          "source": currentComponent,
+          "target": thisTarget + b,
+          "value": 1
+        };
+        currentComponent++;
+      }
+    }
+
+    // We have a sub-assembly ... need to change the level as well as the target
+    if (Comp2Array[z].Collapse == true) {
+      levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
+    }
+  }
+
+  var width = 1500,
+      height = 1000;
+
+  var color = d3.scale.category20();
+
+  var linkDistance = 75;
+  if (useImages)
+    linkDistance = 250;
+  var force = d3.layout.force()
+      .charge(-120)
+      .linkDistance(linkDistance)
+      .size([width, height]);
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  force.nodes(nodes)
+       .links(links)
+       .start();
+
+  var link = svg.selectAll(".link")
+      .data(links)
+      .enter().append("line")
+      .attr("class", "link")
+      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+  // Use Images for each node or a Color-coded circle
+  var node;
+  if (useImages) {
+    node = svg.selectAll(".node")
+        .data(nodes)
+        .enter().append("image")
+        .attr("class", "node")
+        .attr("width", 75)
+        .attr("height", 75)
+        .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
+        .call(force.drag);
+  }
+  else {
+    node = svg.selectAll(".node")
+        .data(nodes)
+          .enter().append("circle")
+          .attr("class", "node")
+          .attr("r", 12)
+          .style("fill", function(d) { return color(d.group); })
+          .call(force.drag);
+  }
+
+  node.append("title")
+      .text(function(d) { return d.name; });
+
+  force.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+
+    svg.selectAll(".node")
+        .attr("transform", function (d) {
+          return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
+        });
   });
-});
+}

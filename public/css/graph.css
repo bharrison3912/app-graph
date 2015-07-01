@@ -40,17 +40,6 @@ td {
 .block {
   padding: 40px;
 }
-.collapse .toggle {
-  background: url("../images/expanded.svg");
-}
-.expand .toggle {
-  background: url("../images/collapsed.svg");
-}
-.toggle {
-  height: 10px;
-  width: 10px;
-  display: inline-block;
-}
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
