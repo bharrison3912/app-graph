@@ -601,14 +601,18 @@ function onGenerate3()
     }
   }
 
-  var width = 1500,
-      height = 1000;
+  var width = 1000,
+      height = 750;
 
   var color = d3.scale.category20();
 
   var linkDistance = 75;
-  if (useImages)
+  if (useImages) {
     linkDistance = 250;
+    width = 1500;
+    height = 1000;
+  }
+
   var force = d3.layout.force()
       .charge(-120)
       .linkDistance(linkDistance)
@@ -652,6 +656,11 @@ function onGenerate3()
     node.attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
 
-
-  });
+    if (useImages) {
+      svg.selectAll(".node")
+          .attr("transform", function (d) {
+            return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
+          });
+    }
+   });
 }
