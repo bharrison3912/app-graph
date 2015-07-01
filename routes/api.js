@@ -128,9 +128,7 @@ var getShadedView = function(req, res) {
     'viewMatrix=' + 'front' + '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth +
     '&pixelSize=' + req.query.pixelSize;
 
-  url = " ";
-
-  console.log("******* GET SHADED " + req.query.partId + "  " + url);
+  console.log("******* GET SHADED " + req.query.partId + " URL= " + url);
 
   if (req.query.partId == "NOT") {
      url = 'https://partner.dev.onshape.com/api/assemblies/d/' + req.query.documentId +
