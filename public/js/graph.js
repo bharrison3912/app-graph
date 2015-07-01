@@ -630,17 +630,7 @@ function onGenerate3()
 
   // Use Images for each node or a Color-coded circle
   var node;
-  if (useImages) {
-    node = svg.selectAll(".node")
-        .data(nodes)
-        .enter().append("image")
-        .attr("class", "node")
-        .attr("width", 75)
-        .attr("height", 75)
-        .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
-        .call(force.drag);
-  }
-  else {
+ {
     node = svg.selectAll(".node")
         .data(nodes)
           .enter().append("circle")
