@@ -125,7 +125,7 @@ var getAssemblyList = function(req, res) {
 var getShadedView = function(req, res) {
     var url = 'https://partner.dev.onshape.com/api/parts/d/' + req.query.documentId +
     '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/partid/' + req.query.partId + '/shadedviews?' +
-    '&viewMatrix=' + 'front' + '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth +
+    'viewMatrix=' + 'front' + '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth +
     '&pixelSize=' + req.query.pixelSize;
 
   url = " ";
