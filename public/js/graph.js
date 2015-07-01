@@ -513,66 +513,6 @@ function onGenerate3()
 {
   createTreeList();
 
-  // Check to see if we should add the images
-  var addImage = true;
-
-  $.ajax('/api/elements'+ window.location.search, {
-    dataType: 'json',
-    type: 'GET',
-    success: function(data) {
-      // Find all components of the assembly
-      var obj = data;
-
-      // Keep a count of repeated components
-      var compArray = {};
-      var compSize = 0;
-      for (var i = 0; i < obj.length; ++i) {
-        var itemName = obj[i].name;
-        var partNumber = obj[i].partNumber;
-        var revision = obj[i].revision;
-
-        if (itemName.lastIndexOf("Surface") == -1) {
-          // Search through the list of components to find a match
-          var found = false;
-          for (var x = 0; x < compSize; ++x) {
-            if (compArray[x].Name == itemName) {
-              compArray[x].Count++;
-              found = true;
-
-              if (partNumber != null)
-                compArray[x].PartNumber = partNumber;
-              if (revision != null)
-                compArray[x].Revision = revision;
-            }
-          }
-
-          // Update the master list of information with PartNumber/Revision
-          for (x = 0; x < Comp2Array.length; ++x) {
-            if (Comp2Array[x].Name == itemName) {
-              if (partNumber != null)
-                Comp2Array[x].PartNumber = partNumber;
-              if (revision != null)
-                Comp2Array[x].Revision = revision;
-            }
-          }
-
-          // If we didn't find an entry for this, add it at the end.
-          if (found != true) {
-            if (partNumber == null)
-              partNumber = "-";
-            if (revision == null)
-              revision = "1.0";
-            compArray[compSize] = {
-              Name: itemName,
-              Count: 1,
-              PartNumber: partNumber,
-              Revision: revision
-            }
-            compSize++;
-          }
-        }
-      }
-
       // Populate the graph nodes/links with data from the assembly tree
       var nodes = [];
       var links = [];
@@ -592,14 +532,24 @@ function onGenerate3()
         }
       }
 
-      // Add the parent node
-      nodes[nodes.length] = {
-        "name": "ROOT",
-        "group": 0,
-        "image": topLevelImage
-      };
+      var useImages = false;
+      var e = document.getElementById("use-images");
+      if (e.checked == true)
+        useImages = true;
 
-      // Add the the children now
+      var distance = 6;
+      if (useImages)
+        distance = 37;
+
+    // Add the parent node
+    nodes[nodes.length] = {
+      "name": "ROOT",
+      "group": 0,
+      "image": topLevelImage,
+      "offset" : distance
+    };
+
+  // Add the the children now
       for (var z = 0; z < Comp2Array.length; ++z) {
         // See if we should pop the level info
         if (Comp2Array[z].Level < (levelStack.length - 1))
@@ -631,7 +581,8 @@ function onGenerate3()
             nodes[nodes.length] = {
               "name": nodeName,
               "group": Comp2Array[z].Level + 1,
-              "image": thisImage
+              "image": thisImage,
+              "offset" : distance
             };
 
             links[links.length] = {
@@ -648,11 +599,6 @@ function onGenerate3()
           levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
         }
       }
-
-      var useImages = false;
-      var e = document.getElementById("use-images");
-      if (e.checked == true)
-        useImages = true;
 
       var width = 1500,
           height = 1000;
@@ -722,19 +668,11 @@ function onGenerate3()
         node.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
 
-        var distance = 6;
-        if (useImages)
-          distance = 37;
-
         svg.selectAll(".node")
             .attr("transform", function (d) {
-              return "translate(" + (d.x - distance) + "," + (d.y - distance) + ") scale(1)";
+              return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
             });
       });
-    },
-    error: function() {
-    }
-  });
 }
 
 //
