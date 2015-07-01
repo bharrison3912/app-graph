@@ -186,10 +186,19 @@ function generateThumbs(argMap) {
       success: function(data) {
         var res = data;
         if (res.images.length > 0) {
-          ImagesArray[ImagesArray.length] = {
-            Image : res.images[0],
-            Element : elementId,
-            PartId : partId
+          if (partId == "NOT") {
+            ImagesArray[ImagesArray.length] = {
+              Image : res.images[0],
+              Element : elementId,
+              PartId : 0
+            };
+          }
+          else {
+            ImagesArray[ImagesArray.length] = {
+              Image : res.images[0],
+              Element : elementId,
+              PartId : partId
+            };
           }
         }
         resolve(1);
