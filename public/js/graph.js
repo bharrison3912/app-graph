@@ -602,8 +602,7 @@ function onGenerate3()
   }
 
   // Clear out any current results
-  svg.selectAll(".link").remove();
-  svg.selectAll(".node").remove();
+  d3.select("svg").remove();
 
   var width = 1000,
       height = 750;
