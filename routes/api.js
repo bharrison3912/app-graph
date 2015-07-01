@@ -142,7 +142,7 @@ var getShadedView = function(req, res) {
   }
 
   console.log("******* GET SHADED " + req.query.partId + "  " + url);
-  
+
   request.get({
     uri: url,
     headers: {

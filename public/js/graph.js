@@ -172,8 +172,6 @@ function generateThumbs(argMap) {
     var size = argMap.size;
 
     var partIdString = partId;
-    if (partId == 0)
-      partIdString = "NOT";
 
     var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
         "&outputHeight=75&outputWidth=75&pixelSize=" + realSize / 75 +
@@ -389,7 +387,7 @@ function onGenerate2() {
     if (addImage) {
       // Generate all of the thumbnails of the assemblies
       for (var x = 0; x < SubAsmArray.length; ++x) {
-        var thumbPromise = generateBBox(SubAsmArray[x].Element, 0);
+        var thumbPromise = generateBBox(SubAsmArray[x].Element, 'NOT');
         bboxPromises.push(thumbPromise);
       }
 
