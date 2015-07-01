@@ -671,7 +671,29 @@ function onGenerate3()
           .attr("class", "link")
           .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
-      var node = svg.selectAll(".node")
+      // Use Images for each node or a Color-coded circle
+      var e = document.getElementById("use-images");
+      if (e.checked == true) {
+        var node = svg.selectAll(".node")
+            .data(nodes)
+            .enter().append("image")
+            .attr("class", "node")
+            .attr("width", 75)
+            .attr("height", 75)
+            .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
+            .call(force.drag);
+      }
+      else {
+        var node = svg.selectAll(".node")
+            .data(nodes)
+              .enter().append("circle")
+              .attr("class", "node")
+              .attr("r", 12)
+              .style("fill", function(d) { return color(d.group); })
+            .call(force.drag);
+      }
+
+        var node = svg.selectAll(".node")
           .data(nodes)
 //              .enter().append("circle")
 //              .attr("class", "node")
