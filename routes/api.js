@@ -123,7 +123,7 @@ var getAssemblyList = function(req, res) {
 
 
 var getShadedView = function(req, res) {
-    url = 'https://partner.dev.onshape.com/api/parts/d/' + req.query.documentId +
+    var url = 'https://partner.dev.onshape.com/api/parts/d/' + req.query.documentId +
     '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/partid/' + req.query.partId + '/shadedviews?' +
     '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth + '&pixelSize=' + req.query.pixelSize +
     '&viewMatrix=' + req.query.viewMatrix1 + ',' + req.query.viewMatrix2 + ',' + req.query.viewMatrix3 + ',' + req.query.viewMatrix4 +
@@ -131,8 +131,10 @@ var getShadedView = function(req, res) {
     ',' + req.query.viewMatrix9 + ',' + req.query.viewMatrix10 + ',' + req.query.viewMatrix11 + ',' + req.query.viewMatrix12 +
     '&perspective=false' + '&elementMicroversionId=false';
 
+  url = " ";
+
   if (req.query.partId == "NOT") {
-    var url = 'https://partner.dev.onshape.com/api/assemblies/d/' + req.query.documentId +
+     url = 'https://partner.dev.onshape.com/api/assemblies/d/' + req.query.documentId +
         '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/shadedviews?' +
         '&outputHeight=' + req.query.outputHeight + '&outputWidth=' + req.query.outputWidth + '&pixelSize=' + req.query.pixelSize +
         '&viewMatrix=' + req.query.viewMatrix1 + ',' + req.query.viewMatrix2 + ',' + req.query.viewMatrix3 + ',' + req.query.viewMatrix4 +

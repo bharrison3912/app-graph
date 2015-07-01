@@ -368,7 +368,10 @@ function onGenerate2() {
   SubAsmArray = [];
   ThumbPromises = [];
 
-  var addImage = true;
+  var addImage = false;
+  var e = document.getElementById("use-images");
+  if (e.checked == true)
+    addImage = true;
 
   var getPromise = new Promise(findAssemblies);
 
@@ -718,8 +721,19 @@ function onGenerate3()
         node.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
 
-        svg.selectAll(".node")
-            .attr("transform", function(d) { return "translate(" + (d.x - 37) + "," + (d.y - 37) + ") scale(1)"; });
+        if (e.checked == true) {
+          svg.selectAll(".node")
+              .attr("transform", function (d) {
+                return "translate(" + (d.x - 37) + "," + (d.y - 37) + ") scale(1)";
+              });
+        }
+        else {
+          svg.selectAll(".node")
+              .attr("transform", function (d) {
+                return "translate(" + (d.x - 12) + "," + (d.y - 12) + ") scale(1)";
+              });
+
+        }
       });
       //        });
     },
