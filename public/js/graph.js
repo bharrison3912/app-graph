@@ -602,7 +602,9 @@ function onGenerate3()
   }
 
   // Clear out any current results
-  svg.selectAll("*").remove();
+  svg.selectAll(".link").remove();
+  svg.selectAll(".node").remove();
+  svg.selectAll("body").remove();
 
   var width = 1000,
       height = 750;
