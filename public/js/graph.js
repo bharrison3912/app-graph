@@ -652,9 +652,6 @@ function onGenerate3()
     node.attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
 
-    svg.selectAll(".node")
-        .attr("transform", function (d) {
-          return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
-        });
+
   });
 }
