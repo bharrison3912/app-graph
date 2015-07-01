@@ -652,7 +652,7 @@ function onGenerate3()
       var useImages = false;
       var e = document.getElementById("use-images");
       if (e.checked == true)
-        useImages = false;
+        useImages = true;
 
       var width = 1500,
           height = 1000;
@@ -722,19 +722,14 @@ function onGenerate3()
         node.attr("cx", function(d) { return d.x; })
             .attr("cy", function(d) { return d.y; });
 
-        if (useImages) {
-          svg.selectAll(".node")
-              .attr("transform", function (d) {
-                return "translate(" + (d.x - 37) + "," + (d.y - 37) + ") scale(1)";
-              });
-        }
-        else {
-          svg.selectAll(".node")
-              .attr("transform", function (d) {
-                return "translate(" + (d.x - 6) + "," + (d.y - 6) + ") scale(1)";
-              });
+        var distance = 6;
+        if (useImages)
+          distance = 37;
 
-        }
+        svg.selectAll(".node")
+            .attr("transform", function (d) {
+              return "translate(" + (d.x - distance) + "," + (d.y - distance) + ") scale(1)";
+            });
       });
     },
     error: function() {
