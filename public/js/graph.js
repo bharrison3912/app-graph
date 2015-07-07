@@ -147,6 +147,10 @@ function generateBBox(elementId, partId) {
         var bY = yCenter * 0.707 + yCenter * 0.409 + yCenter * -0.577;
         var bZ = zCenter * 0 + zCenter * 0.816 + zCenter * 0.577;
 
+        bX = 0;
+        bY = 0;
+        bZ = 0;
+
         // Now, finish the rest of the work.
         generateThumbs({'Element' : elementId, 'PartId' : partId, 'xCtr' : -bX, 'yCtr' : -bY, 'zCtr' : -bZ, 'size' : bSize });
         resolve(1);
@@ -663,10 +667,6 @@ function onGenerate3()
         .attr("width", 200)
         .attr("height", 200)
         .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
-        .enter().append("circle")
-        .attr("r", 100)
-        .attr("fill", "none")
-        .style("stroke", function(d) { return color(d.group); })
         .call(force.drag);
   }
 
