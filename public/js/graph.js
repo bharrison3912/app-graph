@@ -549,7 +549,7 @@ function onGenerate3()
 
   var distance = 6;
   if (useImages)
-    distance = 0;
+    distance = 100;
 
   // Add the parent node
   nodes[nodes.length] = {
@@ -620,7 +620,7 @@ function onGenerate3()
 
   var linkDistance = 75;
   if (useImages) {
-    linkDistance = 100;
+    linkDistance = 200;
     width = 1500;
     height = 1000;
   }
