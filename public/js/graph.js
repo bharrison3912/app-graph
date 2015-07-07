@@ -549,7 +549,7 @@ function onGenerate3()
 
   var distance = 6;
   if (useImages)
-    distance = 100;
+    distance = 0;
 
   // Add the parent node
   nodes[nodes.length] = {
@@ -660,8 +660,8 @@ function onGenerate3()
         .data(nodes)
         .enter().append("image")
         .attr("class", "node")
-        .attr("width", 75)
-        .attr("height", 75)
+        .attr("width", 200)
+        .attr("height", 200)
         .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
         .call(force.drag);
   }
