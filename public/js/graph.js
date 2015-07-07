@@ -627,7 +627,6 @@ function onGenerate3()
 
   var force = d3.layout.force()
       .charge(-120)
-      .gravity(0.5)
       .linkDistance(linkDistance)
       .size([width, height]);
 
@@ -664,6 +663,10 @@ function onGenerate3()
         .attr("width", 200)
         .attr("height", 200)
         .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
+        .append("circle")
+        .attr("r", 100)
+        .attr("fill", "none")
+        .style("stroke", function(d) { return color(d.group); })
         .call(force.drag);
   }
 
