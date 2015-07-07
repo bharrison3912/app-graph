@@ -620,7 +620,7 @@ function onGenerate3()
 
   var linkDistance = 75;
   if (useImages) {
-    linkDistance = 200;
+    linkDistance = 400;
     width = 1500;
     height = 1000;
   }
