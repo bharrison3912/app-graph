@@ -626,9 +626,9 @@ function onGenerate3()
   }
 
   var force = d3.layout.force()
-      .charge(-30)
+      .charge(-120)
+      .gravity(0.5)
       .linkDistance(linkDistance)
-      .linkStrength(0.1)
       .size([width, height]);
 
   var svg = d3.select("body").append("svg")
