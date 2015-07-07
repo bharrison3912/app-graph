@@ -174,7 +174,7 @@ function generateThumbs(argMap) {
     var partIdString = partId;
 
     var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
-        "&outputHeight=200&outputWidth=200&pixelSize=" + realSize / 200 +
+        "&outputHeight=125&outputWidth=125&pixelSize=" + realSize / 125 +
         "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + xCtr +
         "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + yCtr +
         "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr +
@@ -325,7 +325,7 @@ function onGenerate2() {
   ResultImage.addClass('ResultImage');
 
   var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + theContext.elementId +
-          "&outputHeight=200&outputWidth=200&pixelSize=" + realSize / 200 +
+          "&outputHeight=125&outputWidth=125&pixelSize=" + realSize / 125 +
       "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + (-tX) +
       "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + (-tY) +
       "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + (-tZ) +
@@ -355,22 +355,6 @@ function onGenerate2() {
 
     }
   });
-
-// Create block dom
-  this.block = $('<div class="block" position="relative"></div>');
-  this.block.attr("bom", "bom")
-  this.block.append(ResultImage);
-  ResultTable = $('<table valign="center"></table>');
-  ResultTable.addClass('resultTable');
-  this.block.append(ResultTable);
-
-  ResultTable.append("<th style='min-width:25px' align='left'> </th>");
-  ResultTable.append("<th style='min-width:125px' align='left'>Item Number</th>");
-  ResultTable.append("<th style='min-width:200px' align='left'>Component Name</th>");
-  ResultTable.append("<th style='min-width:100px' align='left'>Count</th>");
-  ResultTable.append("<th style='min-width:150px' align='left'>Part Number</th>");
-  ResultTable.append("<th style='min-width:100px' align='left'>Revision</th>");
-
 
   // Recursive search for components in the assembly
   Comp2Array = [];
@@ -549,7 +533,7 @@ function onGenerate3()
 
   var distance = 6;
   if (useImages)
-    distance = 100;
+    distance = 62;
 
   // Add the parent node
   nodes[nodes.length] = {
@@ -620,7 +604,7 @@ function onGenerate3()
 
   var linkDistance = 75;
   if (useImages) {
-    linkDistance = 400;
+    linkDistance = 300;
     width = 1500;
     height = 1500;
   }
@@ -660,8 +644,8 @@ function onGenerate3()
         .data(nodes)
         .enter().append("image")
         .attr("class", "node")
-        .attr("width", 200)
-        .attr("height", 200)
+        .attr("width", 125)
+        .attr("height", 125)
         .attr("xlink:href", function(d) { return ("data:image/png;base64," + d.image); })
         .call(force.drag);
   }
