@@ -622,12 +622,13 @@ function onGenerate3()
   if (useImages) {
     linkDistance = 400;
     width = 1500;
-    height = 1000;
+    height = 1500;
   }
 
   var force = d3.layout.force()
-      .charge(-120)
+      .charge(-30)
       .linkDistance(linkDistance)
+      .linkStrength(0.1)
       .size([width, height]);
 
   var svg = d3.select("body").append("svg")
