@@ -552,7 +552,7 @@ function onGenerate3()
       "group": 0,
       "image": topLevelImage,
       "offset" : distance,
-      "charge" : -500
+      "charge" : -3000
   };
 
   // Add the the children now
@@ -579,6 +579,8 @@ function onGenerate3()
       }
     }
 
+    var nextCharge = (itemPartId == 0) ? -1000 : -100;
+
     for (var b = 0; b < thisSubAsmCount; ++b) {
       for (var a = 0; a < Comp2Array[z].Count; ++a) {
         var nodeName = Comp2Array[z].Name;
@@ -589,7 +591,7 @@ function onGenerate3()
           "group": Comp2Array[z].Level + 1,
           "image": thisImage,
           "offset" : distance,
-          "charge" : -100
+          "charge" : nextCharge
         };
 
         links[links.length] = {
