@@ -646,7 +646,7 @@ function onGenerate3()
       .linkDistance(linkDistance)
       .size([width, height]);
 
-  var svg = d3.select("chart").append("svg")
+  var svg = d3.select("body").append("svg")
       .attr("width", width)
       .attr("height", height);
 
