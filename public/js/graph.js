@@ -169,15 +169,6 @@ function generateThumbs(argMap) {
   var zCtr = argMap.zCtr;
   var size = argMap.size;
 
-  // Check to make sure this part/assembly has not been captured already
-  var searchPartId = partId;
-  if (partId == "NOT")
-    searchPartId = 0;
-  for (var x = 0; x < ImagesArray.length; ++x) {
-    if (ImagesArray[x].Element == elementId && ImagesArray[x].PartId == searchPartId)
-      return;
-  }
-
   // Create a promise to sync the generation of the thumbnail
   var thumb = new Promise(function(resolve, reject) {
 
@@ -392,16 +383,42 @@ function onGenerate2() {
     var bboxPromises = [];
 
     if (addImage) {
+      var inProcessList = [];
+
       // Generate all of the thumbnails of the assemblies
       for (var x = 0; x < SubAsmArray.length; ++x) {
         var thumbPromise = generateBBox(SubAsmArray[x].Element, 'NOT');
         bboxPromises.push(thumbPromise);
+
+        // Keep track of what we've taken images of already
+        inProcessList[inProcessList.length] = {
+          "ElementId" : SubAsmArray[x].Element,
+          "PartId" : 0
+        };
       }
 
       // Generate all of the thumbnails for the components found
       for (var y = 0; y < SubAsmArray.length; ++y) {
         for (var z = 0; z < SubAsmArray[y].Components.length; ++z) {
           if (SubAsmArray[y].Components[z].AsmElementId == 0) {
+            // First, check to see if this element has been taken already
+            var found = false;
+            for (var w = 0; w < inProcessList.length; ++w) {
+              if (inProcessList[w].ElementId == SubAsmArray[y].Components[z].ElementId &&
+                  inProcessList[w].PartId == SubAsmArray[y].Components[z].PartId) {
+                found = true;
+                break;
+              }
+            }
+            if (found)
+              continue;
+
+            inProcessList[inProcessList.length] = {
+              "ElementId" : SubAsmArray[y].Components[z].ElementId,
+              "PartId" : SubAsmArray[y].Components[z].PartId
+            };
+
+            // Generate the BBOX and then the Thumbnail for this component
             var partThumbPromise = generateBBox(SubAsmArray[y].Components[z].ElementId, SubAsmArray[y].Components[z].PartId);
             bboxPromises.push(partThumbPromise);
           }
