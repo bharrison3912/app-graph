@@ -551,7 +551,8 @@ function onGenerate3()
       "name": "ROOT",
       "group": 0,
       "image": topLevelImage,
-      "offset" : distance
+      "offset" : distance,
+      "charge" : -500
   };
 
   // Add the the children now
@@ -587,7 +588,8 @@ function onGenerate3()
           "name": nodeName,
           "group": Comp2Array[z].Level + 1,
           "image": thisImage,
-          "offset" : distance
+          "offset" : distance,
+          "charge" : -100
         };
 
         links[links.length] = {
@@ -608,20 +610,18 @@ function onGenerate3()
   // Clear out any current results
   d3.select("svg").remove();
 
-  var width = 1000,
-      height = 750;
+  var width = $(window).width(),
+      height = $(window).height();
 
   var color = d3.scale.category20();
 
   var linkDistance = 75;
   if (useImages) {
     linkDistance = 150;
-    width = 1500;
-    height = 1500;
   }
 
   var force = d3.layout.force()
-      .charge(-120)
+      .charge(function(node) { return node.charge; })
       .linkDistance(linkDistance)
       .size([width, height]);
 
