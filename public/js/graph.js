@@ -161,26 +161,37 @@ function generateBBox(elementId, partId) {
 var ImagesArray = [];
 
 function generateThumbs(argMap) {
+  // Decode the argument map
+  var elementId = argMap.Element;
+  var partId = argMap.PartId;
+  var xCtr = argMap.xCtr;
+  var yCtr = argMap.yCtr;
+  var zCtr = argMap.zCtr;
+  var size = argMap.size;
 
+  // Check to make sure this part/assembly has not been captured already
+  var searchPartId = partId;
+  if (partId == "NOT")
+    searchPartId = 0;
+  for (var x = 0; x < ImagesArray.length; ++x) {
+    if (ImagesArray[x].Element == elementId && ImagesArray[x].PartId == searchPartId)
+      return;
+  }
+
+  // Create a promise to sync the generation of the thumbnail
   var thumb = new Promise(function(resolve, reject) {
 
-    var elementId = argMap.Element;
-    var partId = argMap.PartId;
-    var xCtr = argMap.xCtr;
-    var yCtr = argMap.yCtr;
-    var zCtr = argMap.zCtr;
-    var size = argMap.size;
+  // Create the URL for the call to generate the thumbnail with an ISOMETRIC view orientation
+  var partIdString = partId;
 
-    var partIdString = partId;
-
-    var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
+  var options = "?documentId=" + theContext.documentId + "&workspaceId=" + theContext.workspaceId + "&elementId=" + elementId +
         "&outputHeight=125&outputWidth=125&pixelSize=" + realSize / 125 +
         "&viewMatrix1=" + 0.707 + "&viewMatrix2=" + 0.707 + "&viewMatrix3=" + 0 + "&viewMatrix4=" + xCtr +
         "&viewMatrix5=" + (-0.409) + "&viewMatrix6=" + 0.409 + "&viewMatrix7=" + 0.816 + "&viewMatrix8=" + yCtr +
         "&viewMatrix9=" + 0.577 + "&viewMatrix10=" + (-0.577) + "&viewMatrix11=" + 0.577 + "&viewMatrix12=" + zCtr +
         "&partId=" + partIdString;
 
-    $.ajax('/api/shadedView'+ options, {
+  $.ajax('/api/shadedView'+ options, {
       dataType: 'json',
       type: 'GET',
       success: function(data) {
