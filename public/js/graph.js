@@ -73,6 +73,8 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
+  $('#graph-progress-bar').removeClass('hidden');
+
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
     dataType: 'json',
@@ -698,5 +700,7 @@ function onGenerate3()
             return "translate(" + (d.x - d.offset) + "," + (d.y - d.offset) + ") scale(1)";
           });
     }
-   });
+
+    $('#graph-progress-bar').addClass('hidden');
+  });
 }
