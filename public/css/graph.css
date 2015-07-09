@@ -49,13 +49,13 @@ body {
   }
 }
 .graph-progress-bar {
-  height:24px;
+  height:18px;
   border:1px solid #bbb;
   border-radius:0px;
   position:relative;
   overflow:hidden;
   background: #FFFFFF;
-  margin:150px;
+  margin:30%;
   margin-top:20%;
 }
 
