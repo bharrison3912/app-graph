@@ -523,7 +523,7 @@ function onGenerate3() {
         "PartId" : Comp2Array[x].PartId
       };
 
-      var partThumbPromise = generateBBox(Comp2Array[x].ElementId, (Comp2Array[x].PartId == 0) ? "NOT" : Comp2Array[x].PartId);
+      var partThumbPromise = generateBBox((Comp2Array[x].AsmElementId == 0) ? Comp2Array[x].ElementId : Comp2Array[x].AsmElementId, (Comp2Array[x].PartId == 0) ? "NOT" : Comp2Array[x].PartId);
       bboxPromises.push(partThumbPromise);
     }
 
