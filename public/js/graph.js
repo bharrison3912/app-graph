@@ -379,6 +379,14 @@ function onGenerate2() {
 
   // Find all assemblies in the model
   return getPromise.then(function() {
+    var listPromises = [];
+
+    // Find all of the components in the selected assembly (and it's sub-assemblies)
+    for (var x = 0; x < SubAsmArray.length; ++x)
+      listPromises.push(new Promise(function(resolve, reject) { findComponents(resolve, reject, SubAsmArray[x].Element, x); }));
+
+    return Promise.all(listPromises);
+  }).then(function() {
     // Match up revision/part number and total counts here
     onGenerate3();
   });
