@@ -17,6 +17,7 @@ body {
 }
 .graph-progress-bar {
   margin:47%;
+  margin-top:20%;
 }
 
 @-moz-keyframes spinner-loader {
