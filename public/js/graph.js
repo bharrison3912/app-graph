@@ -73,7 +73,7 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
-  $('#graph-progress-bar').removeClass('hidden');
+//  $('#graph-progress-bar').removeClass('hidden');
 
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
@@ -701,6 +701,6 @@ function onGenerate3()
           });
     }
 
-    $('#graph-progress-bar').addClass('hidden');
+    $('#graph-progress-bar').display("none");
   });
 }
