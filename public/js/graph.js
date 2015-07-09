@@ -73,9 +73,9 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
-  var bar = document.getElementById("graph-progress-bar");
+  var bar = document.getElementById("graph-status-bar");
   bar.style.display = "block";
-  
+
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
     dataType: 'json',
@@ -628,8 +628,9 @@ function onGenerate3()
       levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
     }
   }
-
-//  document.getElementById("graph-progress-bar").style.display = "none";
+  
+  var bar = document.getElementById("graph-status-bar");
+  bar.style.display = "none";
 
   // Clear out any current results
   d3.select("svg").remove();
