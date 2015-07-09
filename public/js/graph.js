@@ -379,69 +379,9 @@ function onGenerate2() {
 
   // Find all assemblies in the model
   return getPromise.then(function() {
-    var listPromises = [];
-
-    // Find all of the components in the selected assembly (and it's sub-assemblies)
-    for (var x = 0; x < SubAsmArray.length; ++x)
-      listPromises.push(new Promise(function(resolve, reject) { findComponents(resolve, reject, SubAsmArray[x].Element, x); }));
-
-    return Promise.all(listPromises);
-  }).then(function() {
-    var bboxPromises = [];
-
-    if (addImage) {
-      var inProcessList = [];
-
-      // Generate all of the thumbnails of the assemblies
-      for (var x = 0; x < SubAsmArray.length; ++x) {
-        var thumbPromise = generateBBox(SubAsmArray[x].Element, 'NOT');
-        bboxPromises.push(thumbPromise);
-
-        // Keep track of what we've taken images of already
-        inProcessList[inProcessList.length] = {
-          "ElementId" : SubAsmArray[x].Element,
-          "PartId" : 0
-        };
-      }
-
-      // Generate all of the thumbnails for the components found
-      for (var y = 0; y < SubAsmArray.length; ++y) {
-        for (var z = 0; z < SubAsmArray[y].Components.length; ++z) {
-          if (SubAsmArray[y].Components[z].AsmElementId == 0) {
-            // First, check to see if this element has been taken already
-            var found = false;
-            for (var w = 0; w < inProcessList.length; ++w) {
-              if (inProcessList[w].ElementId == SubAsmArray[y].Components[z].ElementId &&
-                  inProcessList[w].PartId == SubAsmArray[y].Components[z].PartId) {
-                found = true;
-                break;
-              }
-            }
-            if (found)
-              continue;
-
-            inProcessList[inProcessList.length] = {
-              "ElementId" : SubAsmArray[y].Components[z].ElementId,
-              "PartId" : SubAsmArray[y].Components[z].PartId
-            };
-
-            // Generate the BBOX and then the Thumbnail for this component
-            var partThumbPromise = generateBBox(SubAsmArray[y].Components[z].ElementId, SubAsmArray[y].Components[z].PartId);
-            bboxPromises.push(partThumbPromise);
-          }
-        }
-      }
-    }
-
-    return Promise.all(bboxPromises);
-  }).then(function() {
-    // Make sure all of the images are captured
-    return Promise.all(ThumbPromises);
-  }).then(function() {
     // Match up revision/part number and total counts here
     onGenerate3();
   });
-
 }
 
 //
@@ -537,11 +477,61 @@ function createTreeList() {
   }
 }
 
-function onGenerate3()
-{
+function onGenerate3() {
   // Walk through all of the data collected and build the tree.
   createTreeList();
 
+  var addImage = false;
+  var e = document.getElementById("use-images");
+  if (e.checked == true)
+    addImage = true;
+
+  // Just go and finish creating the
+  if (addImage == false)
+    onGenerate4();
+
+  // Generate the images for the components used in the display (not everyting in the assembly)
+  else {
+    var bboxPromises = [];
+    var inProcessList = [];
+
+    // Generate all of the thumbnails of the assemblies
+    for (var x = 0; x < Comp2Array.length; ++x) {
+      // First, check to see if this element has been taken already
+      var found = false;
+      for (var w = 0; w < inProcessList.length; ++w) {
+        if (inProcessList[w].ElementId == Comp2Array[x].ElementId &&
+            inProcessList[w].PartId == Comp2Array[x].PartId) {
+          found = true;
+          break;
+        }
+      }
+      if (found)
+        continue;
+
+      // If it's not found, then we need to generate BBOX and Image for it
+      inProcessList[inProcessList.length] = {
+        "ElementId" : Comp2Array[x].ElementId,
+        "PartId" : Comp2Array[x].PartId
+      };
+
+      var partThumbPromise = generateBBox(Comp2Array[x].ElementId, (Comp2Array[x].PartId == 0) ? "NOT" : Comp2Array[x].PartId);
+      bboxPromises.push(partThumbPromise);
+    }
+
+    return Promise.all(bboxPromises)
+        .then(function() {
+           // Make sure all of the images are captured
+           return Promise.all(ThumbPromises);
+        })
+        .then(function() {
+          // Match up revision/part number and total counts here
+          onGenerate4();
+        });
+  }
+}
+
+function onGenerate4() {
   // Populate the graph nodes/links with data from the assembly tree
   var nodes = [];
   var links = [];

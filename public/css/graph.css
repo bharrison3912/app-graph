@@ -56,7 +56,7 @@ body {
   overflow:hidden;
   background: #FFFFFF;
   margin:150px;
-  margin-top:200px;
+  margin-top:35%;
 }
 
 .graph-progress-bar:after {
