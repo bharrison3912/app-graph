@@ -7,57 +7,14 @@ body {
   padding: 10;
   margin: 10;
 }
-h2 {
-  font-family: 'Open Sans', Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-table,
-th {
-  font-family: "Open-Sans";
-  font-size: 11pt;
-  color: #333333;
-  align: left;
-  border-bottom: 1px solid #9aa5af;
-  line-height: 36px;
-}
-table,
-th,
-td {
-  border-collapse: collapse;
-}
-.app-title {
-  font-size: 12pt;
-  font-weight: 600;
-}
-.boldlabel {
-  font-size: 11pt;
-  color: #1b5faa;
-  font-weight: 600;
-}
-.block,
-.title {
-
-}
-.block {
-  padding: 40px;
-}
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
 }
-
 .link {
   stroke: #999;
   stroke-opacity: .6;
 }
-.chart div {
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
-}
-
 
 @-webkit-keyframes graphBar {
   from {
@@ -92,7 +49,6 @@ td {
   }
 }
 .graph-progress-bar {
-  width:60%;
   height:24px;
   border:1px solid #bbb;
   border-radius:0px;
@@ -113,5 +69,5 @@ td {
   animation: graphBar 3s linear infinite;
   -webkit-animation: graphBar 3s linear infinite;
   z-index:2;
-  background: #333333;
+  background: #A0A0A0;
 }
