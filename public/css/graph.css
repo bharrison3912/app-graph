@@ -93,13 +93,13 @@ td {
 }
 .graph-progress-bar {
   width:80%;
-  height:24,px;
+  height:36,px;
   border:1px solid #bbb;
   border-radius:0px;
   position:relative;
   overflow:hidden;
   background: #E6E6E6;
-  margin:100px;
+  margin:5px;
 }
 
 .graph-progress-bar:after {

@@ -628,6 +628,8 @@ function onGenerate3()
     }
   }
 
+  document.getElementById("graph-progress-bar").style.display = "none";
+  
   // Clear out any current results
   d3.select("svg").remove();
 
@@ -701,6 +703,5 @@ function onGenerate3()
           });
     }
 
-    document.getElementById("graph-progress-bar").style.display = "none";
   });
 }
