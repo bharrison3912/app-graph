@@ -73,9 +73,9 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
-  document.getElementById("graph-progress-bar").style.display = "block";
+  var bar = document.getElementById("graph-progress-bar");
+  bar.style.display = "block";
   
-
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
     dataType: 'json',
