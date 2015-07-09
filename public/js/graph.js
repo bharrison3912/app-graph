@@ -628,7 +628,7 @@ function onGenerate3()
       levelStack.push({"target": currentComponent - Comp2Array[z].Count, "subAsmCount": Comp2Array[z].Count});
     }
   }
-  
+
   var bar = document.getElementById("graph-status-bar");
   bar.style.display = "none";
 
