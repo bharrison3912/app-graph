@@ -77,8 +77,12 @@ function onGenerate() {
   d3.select("svg").remove();
 
   // Pop up the status bar to say it's working on it
-  var bar = document.getElementById("graph-status-bar");
-  bar.style.display = "block";
+  var useImages = false;
+  var e = document.getElementById("use-images");
+  if (e.checked == true) {
+    var bar = document.getElementById("graph-status-bar");
+    bar.style.display = "block";
+  }
 
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
@@ -370,11 +374,6 @@ function onGenerate2() {
   SubAsmArray = [];
   ThumbPromises = [];
 
-  var addImage = false;
-  var e = document.getElementById("use-images");
-  if (e.checked == true)
-    addImage = true;
-
   var getPromise = new Promise(findAssemblies);
 
   // Find all assemblies in the model
@@ -503,7 +502,21 @@ function onGenerate3() {
     var bboxPromises = [];
     var inProcessList = [];
 
+    // Generate thumbnails of the assemblies
     // Generate all of the thumbnails of the assemblies
+    for (var x = 0; x < SubAsmArray.length; ++x) {
+      var thumbPromise = generateBBox(SubAsmArray[x].Element, 'NOT');
+      bboxPromises.push(thumbPromise);
+
+      // Keep track of what we've taken images of already
+      inProcessList[inProcessList.length] = {
+        "ElementId" : SubAsmArray[x].Element,
+        "PartId" : 0
+      };
+    }
+
+
+    // Generate all of the thumbnails of the components in-use
     for (var x = 0; x < Comp2Array.length; ++x) {
       // First, check to see if this element has been taken already
       var found = false;
