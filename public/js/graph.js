@@ -73,7 +73,8 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
-//  $('#graph-progress-bar').removeClass('hidden');
+  document.getElementById("graph-progress-bar").style.display = "block";
+  
 
   // Get the bounding box size
   $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + theContext.elementId, {
@@ -628,8 +629,8 @@ function onGenerate3()
     }
   }
 
-  document.getElementById("graph-progress-bar").style.display = "none";
-  
+//  document.getElementById("graph-progress-bar").style.display = "none";
+
   // Clear out any current results
   d3.select("svg").remove();
 
