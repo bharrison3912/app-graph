@@ -73,6 +73,10 @@ function onGenerate() {
 
   theContext.elementId = $("#elt-select option:selected").val();
 
+  // Clear out any existing graphics
+  d3.select("svg").remove();
+
+  // Pop up the status bar to say it's working on it
   var bar = document.getElementById("graph-status-bar");
   bar.style.display = "block";
 
@@ -633,7 +637,7 @@ function onGenerate3()
   bar.style.display = "none";
 
   // Clear out any current results
-  d3.select("svg").remove();
+//  d3.select("svg").remove();
 
   var width = $(window).width(),
       height = $(window).height();
