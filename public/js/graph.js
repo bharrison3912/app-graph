@@ -701,6 +701,6 @@ function onGenerate3()
           });
     }
 
-    $('#graph-progress-bar').display("none");
+//    $('#graph-progress-bar').display("none");
   });
 }
