@@ -596,8 +596,12 @@ function onGenerate4() {
   // Add the the children now
   for (var z = 0; z < Comp2Array.length; ++z) {
     // See if we should pop the level info
-    if (Comp2Array[z].Level < (levelStack.length - 1))
-      levelStack.pop();
+    if (Comp2Array[z].Level < (levelStack.length - 1)) {
+      // How many times do we need to pop?
+      var levelsToPop = levelStack.length - 1 - Comp2Array[z].level;
+      for (var xx = 0; xx < levelsToPop; ++xx)
+        levelStack.pop();
+    }
 
     var thisTarget = levelStack[levelStack.length - 1].target;
     var thisSubAsmCount = levelStack[levelStack.length - 1].subAsmCount;
