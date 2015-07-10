@@ -15,6 +15,9 @@ $(document).ready(function() {
   // connect the button
   $("#element-generate").button().click(onGenerate);
 
+  var bar = document.getElementById("graph-status-bar");
+  bar.style.display = "none";
+
   // Hold onto the current session information
   theContext.documentId = theQuery.documentId;
   theContext.workspaceId = theQuery.workspaceId;
