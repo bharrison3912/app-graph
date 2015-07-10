@@ -598,7 +598,7 @@ function onGenerate4() {
     // See if we should pop the level info
     if (Comp2Array[z].Level < (levelStack.length - 1)) {
       // How many times do we need to pop?
-      var levelsToPop = levelStack.length - 1 - Comp2Array[z].level;
+      var levelsToPop = levelStack.length - 1 - Comp2Array[z].Level;
       for (var xx = 0; xx < levelsToPop; ++xx)
         levelStack.pop();
     }
