@@ -2,7 +2,6 @@
 // global data
 
 var theContext = {};
-var ResultTable;
 
 ////////////////////////////////////////////////////////////////
 // startup
@@ -130,6 +129,7 @@ function onGenerate() {
 var Comp2Array = [];
 var SubAsmArray = [];
 var ThumbPromises = [];
+var ImagesArray = [];
 
 function generateBBox(elementId, partId) {
   return new Promise(function(resolve, reject) {
@@ -171,8 +171,6 @@ function generateBBox(elementId, partId) {
     });
   });
 }
-
-var ImagesArray = [];
 
 function generateThumbs(argMap) {
   // Decode the argument map
@@ -335,6 +333,9 @@ function findComponents(resolve, reject, nextElement, asmIndex) {
 // Second half to the generate function ... need the bounding box results first
 function onGenerate2() {
   ImagesArray = [];
+  Comp2Array = [];
+  SubAsmArray = [];
+  ThumbPromises = [];
 
 // Add an image of the model to the page
   ResultImage = $('<div style="float:right"></div>');
@@ -373,10 +374,6 @@ function onGenerate2() {
   });
 
   // Recursive search for components in the assembly
-  Comp2Array = [];
-  SubAsmArray = [];
-  ThumbPromises = [];
-
   var getPromise = new Promise(findAssemblies);
 
   // Find all assemblies in the model
