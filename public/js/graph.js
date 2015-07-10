@@ -159,7 +159,7 @@ function generateBBox(elementId, partId) {
         var bZ = zCenter * 0 + zCenter * 0.816 + zCenter * 0.577;
 
         // Now, finish the rest of the work.
-        generateThumbs({'Element' : elementId, 'PartId' : partId, 'xCtr' : -bX, 'yCtr' : -bY, 'zCtr' : bZ, 'size' : bSize });
+        generateThumbs({'Element' : elementId, 'PartId' : partId, 'xCtr' : -bX, 'yCtr' : -bY, 'zCtr' : -bZ, 'size' : bSize });
         resolve(1);
       },
       error: function(data) {
