@@ -110,9 +110,9 @@ function onGenerate() {
       var yCenter = (yHigh + yLow) / 2;
       var zCenter = (zHigh + zLow) / 2;
 
-      tX = xCenter * 0.707 + xCenter * -0.409 + xCenter * 0.577;
-      tY = yCenter * 0.707 + yCenter * 0.409 + yCenter * -0.577;
-      tZ = zCenter * 0 + zCenter * 0.816 + zCenter * 0.577;
+      tX = (xCenter * 0.707 + yCenter * 0.707 + zCenter * 0);
+      tY = (xCenter * -0.409 + yCenter * 0.409 + zCenter * 0.816);
+      tZ = (xCenter * 0.577 + yCenter * -0.577 + zCenter * 0.577);
 
       // Now, finish the rest of the work.
       onGenerate2();
@@ -157,9 +157,9 @@ function generateBBox(elementId, partId) {
         var yCenter = (yHigh + yLow) / 2;
         var zCenter = (zHigh + zLow) / 2;
 
-        var bX = xCenter * 0.707 + xCenter * -0.409 + xCenter * 0.577;
-        var bY = yCenter * 0.707 + yCenter * 0.409 + yCenter * -0.577;
-        var bZ = zCenter * 0 + zCenter * 0.816 + zCenter * 0.577;
+        var bX = (xCenter * 0.707 + yCenter * 0.707 + zCenter * 0);
+        var bY = (xCenter * -0.409 + yCenter * 0.409 + zCenter * 0.816);
+        var bZ = (xCenter * 0.577 + yCenter * -0.577 + zCenter * 0.577);
 
         // Now, finish the rest of the work.
         generateThumbs({'Element' : elementId, 'PartId' : partId, 'xCtr' : -bX, 'yCtr' : -bY, 'zCtr' : -bZ, 'size' : bSize });
