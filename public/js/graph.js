@@ -133,8 +133,12 @@ var ImagesArray = [];
 
 function generateBBox(elementId, partId) {
   return new Promise(function(resolve, reject) {
+    var url = '/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + elementId;
+    if (partId != 'NOT')
+      url += '&partId=' + partId;
+
     // Get the bounding box size
-    $.ajax('/api/boundingBox' + '?documentId=' + theContext.documentId + '&workspaceId=' + theContext.workspaceId + '&elementId=' + elementId + '&partId=' + partId, {
+    $.ajax(url, {
       dataType: 'json',
       type: 'GET',
       success: function(data) {

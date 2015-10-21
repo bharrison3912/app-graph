@@ -167,7 +167,7 @@ var getShadedView = function(req, res) {
 var getBoundingBox = function(req, res) {
   var url = 'https://partner.dev.onshape.com/api/assemblies/d/' + req.query.documentId +
       '/w/' + req.query.workspaceId + '/e/' + req.query.elementId;
-  if (req.query.partId != 0)
+  if (req.query.partId != null)
     url = 'https://partner.dev.onshape.com/api/parts/d/'+ req.query.documentId +
     '/w/' + req.query.workspaceId + '/e/' + req.query.elementId + '/partid/' + req.query.partId;
 
