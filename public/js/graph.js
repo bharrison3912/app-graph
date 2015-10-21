@@ -583,7 +583,7 @@ function onGenerate4() {
 
   var distance = 6;
   if (useImages)
-    distance = 0;
+    distance = 62;
 
   // Add the parent node
   nodes[nodes.length] = {
